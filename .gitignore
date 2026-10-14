@@ -1,0 +1,25 @@
+node_modules/
+dist/
+dist-ssr/
+*.local
+.env
+.env.*.local
+# Written by deploy/aws-env.sh at build time.
+.env.production
+
+# Editor / OS
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Test / build artifacts
+coverage/
+stats.html
+
+# Scratch copies of the original scaffold. Kept on disk, out of the repo.
+_to_delete/

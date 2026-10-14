@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+/*
+ * ServiceFinder's back-office theme, lifted from the design mockups
+ * ("ServiceFinder Backoffice.dc.html" and the Admin screens, A01–A04, of
+ * "Platform Screen Pack.dc.html") — the same hex values, type and radii,
+ * not approximations.
+ *
+ * Registered via Tailwind v4's @theme so the whole app gets first-class
+ * utilities (bg-bo-surface, text-bo-muted, font-mono, shadow-card, …)
+ * instead of raw colour values scattered through JSX. Re-theming later
+ * means editing values here.
+ *
+ * The language, in short: warm paper surfaces, near-black ink, one deep
+ * teal for everything actionable; Libre Franklin for words, Roboto Mono,
+ * small and uppercase, for labels, table headers, status pills and IDs;
+ * pill-shaped buttons; generous radii (12 inputs, 14–16 tables and
+ * cards, 20 dialogs).
+ */
+@theme {
+  --font-sans: "Libre Franklin", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Roboto Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Surfaces */
+  --color-bo-page: #efebe4;
+  --color-bo-surface: #fdfbf7; /* sidebar, dialogs, auth cards, row hover */
+  --color-bo-paper: #ffffff; /* tables, cards, inputs, secondary buttons */
+  --color-bo-table-head: #fbf8f3;
+  --color-bo-hover: #f6f2eb; /* secondary button hover, a filled code box */
+  --color-bo-nav-hover: #f3eee6;
+
+  /* Lines */
+  --color-bo-border: #e2dcd2; /* sidebar edge, dialogs, auth cards */
+  --color-bo-card-border: #e7e1d7; /* tables and content cards */
+  --color-bo-divider: #ede7dd; /* table header rule, sidebar dividers */
+  --color-bo-row-divider: #f2ede5;
+  --color-bo-input-border: #d9d2c6;
+  --color-bo-input-border-hover: #c9c0b1; /* also the dashed empty-state border */
+
+  /* Text — darkest to lightest */
+  --color-bo-ink: #16150f;
+  --color-bo-body: #3b382f;
+  --color-bo-muted: #57534a;
+  --color-bo-faint: #6e6759;
+
+  /* The one accent: actions, links, focus, the active nav item */
+  --color-bo-accent: #0e7c66;
+  --color-bo-accent-hover: #0a6654;
+  --color-bo-accent-deep: #0a5e4e;
+  --color-bo-accent-bg: #e4f0eb;
+
+  /* Status */
+  --color-bo-neutral-bg: #ede7dd;
+  --color-bo-warning: #9a4509;
+  --color-bo-warning-bg: #fbede1;
+  --color-bo-danger: #9e2b2b;
+  --color-bo-danger-hover: #7f2222;
+  --color-bo-danger-bg: #f7e4e4;
+  --color-bo-error-border: #c8524d;
+
+  /* Controls */
+  --color-bo-disabled-bg: #e7e1d7;
+  --color-bo-backdrop: rgb(22 21 15 / 0.4);
+
+  /* Elevation */
+  --shadow-card: 0 1px 2px rgb(20 18 12 / 0.05), 0 14px 34px rgb(20 18 12 / 0.06);
+  --shadow-table: 0 1px 2px rgb(20 18 12 / 0.04);
+  --shadow-dialog: 0 1px 2px rgb(20 18 12 / 0.06), 0 30px 70px -20px rgb(20 18 12 / 0.35);
+}
+
+/*
+ * In the base layer, not unlayered: unlayered CSS beats every Tailwind
+ * utility regardless of specificity, so a bare `a { color }` here would
+ * paint every NavLink teal no matter what class it carries.
+ */
+@layer base {
+  body {
+    margin: 0;
+    background-color: var(--color-bo-page);
+    color: var(--color-bo-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: var(--color-bo-accent);
+    text-decoration: none;
+  }
+  a:hover {
+    color: var(--color-bo-accent-deep);
+    text-decoration: underline;
+  }
+
+  button:focus-visible,
+  select:focus-visible,
+  a:focus-visible {
+    outline: 2px solid var(--color-bo-accent);
+    outline-offset: 2px;
+  }
+}
+
+@keyframes bo-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

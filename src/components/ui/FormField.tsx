@@ -24,9 +24,19 @@ export function Field({
   );
 }
 
+const inputBase =
+  "w-full box-border rounded-xl border border-bo-input-border bg-bo-paper px-3.5 font-sans text-sm text-bo-ink outline-none placeholder:text-bo-faint hover:border-bo-input-border-hover focus:border-bo-accent focus:shadow-[0_0_0_1px_var(--color-bo-accent)]";
+
 /** Text inputs and textareas: white, hairline border, 12px radius, teal focus ring like the code boxes. */
-export const formInputClass =
-  "w-full box-border rounded-xl border border-bo-input-border bg-bo-paper px-3.5 py-3 font-sans text-sm text-bo-ink outline-none placeholder:text-bo-faint hover:border-bo-input-border-hover focus:border-bo-accent focus:shadow-[0_0_0_1px_var(--color-bo-accent)]";
+export const formInputClass = `${inputBase} py-3`;
+
+/**
+ * The same input at a Select's 40px height, for one sitting beside a
+ * Select on the same line. A separate class rather than an override: two
+ * utilities for the same property (py-3 and h-10's partner py-0) don't
+ * resolve by the order they're written in.
+ */
+export const formInputCompactClass = `${inputBase} h-10`;
 
 const SELECT_SIZES = {
   md: "h-10 pl-3.5 pr-[38px] text-[13px]",

@@ -22,6 +22,7 @@ const NAV_ITEMS: Array<{
   group?: "primary" | "secondary";
 }> = [
   { to: "/", label: "Overview", permission: "overview.view" },
+  { to: "/plans", label: "Plans", permission: "plans.view" },
   { to: "/users", label: "User Management", permission: "users.view" },
 ];
 

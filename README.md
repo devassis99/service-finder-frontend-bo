@@ -48,11 +48,39 @@ on the backend: issue the refresh token as an httpOnly, `SameSite` cookie.
 
 ## What's here
 
-| Page                              | Gated by        | Does                                                                                                      |
-| --------------------------------- | --------------- | --------------------------------------------------------------------------------------------------------- |
-| Overview (`DashboardPage.tsx`)    | `overview.view` | Team counts (if the role can read them), the caller's own role and permissions, and whether the API is up |
-| User Management (`UsersPage.tsx`) | `users.view`    | Users tab: invite, change role, deactivate. Roles & Permissions tab: create, edit permissions, delete     |
-| My Account (`AccountPage.tsx`)    | signed in       | Email, role, and two-factor reset                                                                         |
+| Page                              | Gated by        | Does                                                                                                                                                               |
+| --------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Overview (`DashboardPage.tsx`)    | `overview.view` | Team counts (if the role can read them), the caller's own role and permissions, and whether the API is up                                                          |
+| Plans (`PlansPage.tsx`)           | `plans.view`    | Stripe products and prices: new product, add/replace a price, self-signup on/off, signup links, payment links, delete (archive). Every action needs `plans.manage` |
+| User Management (`UsersPage.tsx`) | `users.view`    | Users tab: invite, change role, deactivate. Roles & Permissions tab: create, edit permissions, delete                                                              |
+| My Account (`AccountPage.tsx`)    | signed in       | Email, role, and two-factor reset                                                                                                                                  |
+
+### Plans
+
+The same feature as iGroom's Plans page, on service-finder-backend's `/billing`
+routes (`src/lib/billing-api.ts`). Everything is created in Stripe first, so the
+table is what Stripe has:
+
+- **+ New Product** — a plan tier, with an optional seat limit (the SEATS
+  column; blank is unlimited). The internal key is derived from the name.
+- **+ Price** — a price for one billing cycle, in US dollars. Stripe prices
+  can't be edited, so a second price for the same cycle replaces the first: the
+  dialog says which price it replaces before it does, and the old one becomes
+  Archived (subscribers on it keep it).
+- **Self-signup** — shows or hides that one price on the public pricing
+  catalog without archiving it.
+- **Copy** — copies the price's reusable signup link,
+  `<TENANT_APP_URL>/join/<token>` (the tenant app's page for it isn't built
+  yet). If the browser won't allow the copy — Safari, after a network request —
+  the link is shown in a dialog instead.
+- **Create Payment Link** — one Stripe Payment Link per chosen cycle, with
+  trial, seat and discount overrides; a discount comes back as a promotion code
+  the buyer enters at checkout.
+- **Delete** — archives, in Stripe too, with the two-click confirm. Shown for
+  active prices and for products that have no prices yet.
+
+The dialogs live in `src/pages/plans/`, with the formatting and parsing helpers
+(`plan-format.ts`) and their tests.
 
 `AppShell.tsx` hides a tab whose permission the role lacks and shows "Access
 denied" for a gated URL typed directly. That's a convenience — the backend checks
@@ -104,7 +132,7 @@ own value.
   and auth cards; a soft two-layer shadow only on raised surfaces.
 
 The building blocks live in `src/components/ui/` — `Button`, `StatusPill`,
-`StatCard`, `DataTable`, `ChipTabs`, `Field`/`Select`, `Modal`, `OtpInput`,
+`StatCard`, `DataTable`, `ChipTabs`, `Field`/`Select`, `Switch`, `Modal`, `OtpInput`,
 `Wordmark`, and `Page.tsx` (`PageTitle`, `SectionHeader`, `Card`, `EmptyState`,
 `InlineError`) — plus `components/layout/AuthLayout.tsx` for the signed-out
 screens. A new page should only need these.
@@ -122,5 +150,11 @@ Where the build differs from the mockup, on purpose:
   records each user's last sign-in time, not a log of every sign-in.
 - **Screens the mockup doesn't draw** (2FA setup, Overview, User Management, My
   Account, dialogs, loading, 404) are composed from the same pieces.
+- **The Plans table's "Copy"** copies a real signup link rather than the
+  mockup's placeholder `buy.stripe.com` one, and the price ID copies itself on
+  click. Archived rows keep their self-signup switch, dimmed and locked — an
+  archived price is never offered, whatever the switch says.
+- **The sidebar** lists only the areas that exist (Overview, Plans, User
+  Management), not the mockup's full set.
 
 Deploying: see [deploy/README.md](deploy/README.md).

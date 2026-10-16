@@ -60,6 +60,7 @@
 
   /* Controls */
   --color-bo-disabled-bg: #e7e1d7;
+  --color-bo-switch-off: #a19986; /* an "off" switch's track */
   --color-bo-backdrop: rgb(22 21 15 / 0.4);
 
   /* Elevation */

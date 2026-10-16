@@ -54,6 +54,6 @@ export function Button({
  * deliberate delete needs no dialog.
  */
 export const confirmPillClass =
-  "inline-flex cursor-pointer items-center rounded-full border-0 bg-bo-danger px-[11px] py-[7px] font-sans text-xs font-semibold leading-none text-white hover:bg-bo-danger-hover disabled:cursor-not-allowed disabled:opacity-60";
+  "inline-flex cursor-pointer items-center whitespace-nowrap rounded-full border-0 bg-bo-danger px-[11px] py-[7px] font-sans text-xs font-semibold leading-none text-white hover:bg-bo-danger-hover disabled:cursor-not-allowed disabled:opacity-60";
 
 export default Button;

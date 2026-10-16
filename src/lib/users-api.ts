@@ -51,7 +51,7 @@ export interface PermissionCatalogEntry {
 
 /**
  * Thin, 1:1 wrappers around service-finder-backend's /users/* routes
- * (src/modules/auth/users.routes.ts) — same pattern as
+ * (src/modules/users/users.routes.ts) — same pattern as
  * src/lib/billing-api.ts. Every call is bearer-token authenticated via
  * apiRequest and is itself permission-gated server-side (users.view /
  * users.manage) — a role without the permission gets a 403 here even
@@ -78,7 +78,7 @@ export const usersApi = {
 
 /**
  * Thin, 1:1 wrappers around service-finder-backend's /roles/* routes
- * (src/modules/auth/roles.routes.ts).
+ * (src/modules/roles/roles.routes.ts).
  */
 export const rolesApi = {
   list: () => apiRequest<{ roles: BoRole[] }>("/roles"),
